@@ -1,28 +1,28 @@
-import { Avatar, Card, CardContent, Grid, Typography, Box } from "@mui/material";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 
-export const TotalProfit = (props) => (
+export const AvgTurnAround = (props) => (
   <Card {...props}>
     <CardContent>
       <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
         <Grid item>
           <Typography color="textSecondary" gutterBottom variant="overline">
-            MONTHLY PROFIT
+            AVG. TURN AROUND
           </Typography>
           <Typography color="textPrimary" variant="h4">
-            $23k
+            1,6k
           </Typography>
         </Grid>
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: "primary.main",
+              backgroundColor: "success.main",
               height: 56,
               width: 56,
             }}
           >
-            <AttachMoneyIcon />
+            <AutorenewIcon />
           </Avatar>
         </Grid>
       </Grid>

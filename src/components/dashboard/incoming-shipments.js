@@ -1,46 +1,47 @@
-import { Avatar, Card, CardContent, Grid, Typography, Box } from "@mui/material";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
-export const TotalProfit = (props) => (
-  <Card {...props}>
+export const IncomingShipments = (props) => (
+  <Card sx={{ height: "100%" }} {...props}>
     <CardContent>
       <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
         <Grid item>
           <Typography color="textSecondary" gutterBottom variant="overline">
-            MONTHLY PROFIT
+            INCOMING SHIPMENTS
           </Typography>
           <Typography color="textPrimary" variant="h4">
-            $23k
+            $24k
           </Typography>
         </Grid>
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: "primary.main",
+              backgroundColor: "error.main",
               height: 56,
               width: 56,
             }}
           >
-            <AttachMoneyIcon />
+            <LocalShippingIcon />
           </Avatar>
         </Grid>
       </Grid>
       <Box
         sx={{
-          alignItems: "center",
-          display: "flex",
           pt: 2,
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        <ArrowUpwardIcon color="success" />
+        <ArrowDownwardIcon color="error" />
         <Typography
-          variant="body2"
+          color="error"
           sx={{
             mr: 1,
           }}
+          variant="body2"
         >
-          16%
+          12%
         </Typography>
         <Typography color="textSecondary" variant="caption">
           Since last month
