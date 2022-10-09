@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import { format } from "date-fns";
 import {
   Avatar,
+  IconButton,
   Box,
+  Button,
   Card,
   Checkbox,
   Table,
@@ -13,13 +15,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  IconButton,
+  Typography,
 } from "@mui/material";
-import { getInitials } from "../../utils/get-initials";
 // MUI Icons
+import RefreshIcon from "@mui/icons-material/Refresh";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export const CheckInListResults = ({ customers, ...rest }) => {
+export const UnlinkedItemsResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -69,11 +71,17 @@ export const CheckInListResults = ({ customers, ...rest }) => {
       <PerfectScrollbar>
         <Box>
           <Table>
-            <TableHead sx={{ backgroundColor: "lightgreen" }}>
+            <TableHead sx={{ backgroundColor: "pink" }}>
               <TableRow>
-                <TableCell>FNSKU</TableCell>
-                <TableCell>ASIN</TableCell>
-                <TableCell></TableCell>
+                <TableCell color="white">Unlinked FNSKUs</TableCell>
+                <TableCell sx={{ pt: 0, pb: 0 }} align="right">
+                  <Box>
+                    <IconButton aria-label="delete">
+                      <RefreshIcon />
+                    </IconButton>
+                  </Box>
+                </TableCell>
+                {/* <TableCell align="right">FNSKU</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -83,8 +91,7 @@ export const CheckInListResults = ({ customers, ...rest }) => {
                   key={customer.id}
                   selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                 >
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{customer.email}</TableCell>
                   <TableCell align="right">
                     <IconButton aria-label="delete">
                       <DeleteIcon color="error" />
@@ -109,6 +116,6 @@ export const CheckInListResults = ({ customers, ...rest }) => {
   );
 };
 
-CheckInListResults.propTypes = {
+UnlinkedItemsResults.propTypes = {
   customers: PropTypes.array.isRequired,
 };

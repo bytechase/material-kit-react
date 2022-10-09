@@ -9,8 +9,10 @@ import {
   Typography,
   ToggleButton,
   ToggleButtonGroup,
+  Autocomplete,
 } from "@mui/material";
-import { Search as SearchIcon } from "../../icons/search";
+
+import { shipments } from "../../__mocks__/shipments";
 
 export const CheckInListToolbar = ({ checkinstate, handlebuttongroup }) => (
   <Box>
@@ -44,22 +46,22 @@ export const CheckInListToolbar = ({ checkinstate, handlebuttongroup }) => (
     </Box>
     <Box sx={{ mt: 3 }}>
       <Card>
-        <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
-            <TextField
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SvgIcon color="action" fontSize="small">
-                      <SearchIcon />
-                    </SvgIcon>
-                  </InputAdornment>
-                ),
-              }}
-              placeholder={checkinstate == "items" ? "Search Mailboxes" : "Search Shipments"}
-              variant="outlined"
-            />
+        <CardContent sx={{ width: "100%" }}>
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Box sx={{ width: 500 }}>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={shipments}
+                getOptionLabel={(option) => option.userEmail}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Mailbox" />}
+              />
+            </Box>
+            <Box sx={{ justifyContent: "flex-end", display: "flex", gap: 2, width: "100%" }}>
+              <Button variant="contained">Save</Button>
+              <Button variant="contained">Print Labels</Button>
+            </Box>
           </Box>
         </CardContent>
       </Card>

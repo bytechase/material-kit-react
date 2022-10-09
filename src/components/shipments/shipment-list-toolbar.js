@@ -13,7 +13,7 @@ import { Search as SearchIcon } from "../../icons/search";
 import NewShipmentDialog from "./new-shipment-dialog";
 
 export const ShipmentListToolbar = (props) => {
-  const [openDialog, setOpenDialog] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
 
   function handleDialogOpen() {
     setOpenDialog(true);

@@ -124,24 +124,23 @@ export const ShipmentListResults = ({ shipments, ...rest }) => {
                       }}
                     >
                       <Typography color="textPrimary" variant="body1">
-                        {shipment.userEmail}
+                        {shipment.user}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{shipment.itemQuantity}</TableCell>
+                  <TableCell>{shipment.item_quantity}</TableCell>
                   <TableCell>
                     <ShipmentTrackingCell
                       provider={shipment.carrier}
-                      trackingNumber={shipment.trackingNumber}
+                      trackingNumber={shipment.tracking_number}
                     />
                   </TableCell>
                   <TableCell>
                     <ShipmentStatusChip status={shipment.status} />
                   </TableCell>
-                  <TableCell>
-                    {currencyFormatter("en-US", "USD", shipment.shipmentCost / 100)}
-                  </TableCell>
-                  <TableCell>{format(shipment.createdAt, "dd/MM/yyyy")}</TableCell>
+                  <TableCell>{currencyFormatter("en-US", "USD", shipment.cost / 100)}</TableCell>
+                  <TableCell>{new Date(shipment.created_at).toLocaleDateString()}</TableCell>
+                  {/* <TableCell>{shipment.created_at}</TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
@@ -159,8 +158,4 @@ export const ShipmentListResults = ({ shipments, ...rest }) => {
       />
     </Card>
   );
-};
-
-ShipmentListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
 };
