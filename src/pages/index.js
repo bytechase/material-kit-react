@@ -9,7 +9,6 @@ import { TotalProfit } from "../components/dashboard/total-profit";
 import { HighestStockItems } from "../components/dashboard/highest-stock-items";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { AvgTurnAround } from "../components/dashboard/avg-turn-around";
-
 const Page = () => (
   <>
     <Head>

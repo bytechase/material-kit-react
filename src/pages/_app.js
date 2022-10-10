@@ -10,6 +10,8 @@ import { createEmotionCache } from "../utils/create-emotion-cache";
 import { registerChartJs } from "../utils/register-chart-js";
 import { theme } from "../theme";
 import "../theme/shipments.css";
+import { UserProvider } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 registerChartJs();
 
@@ -29,11 +31,14 @@ const App = (props) => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <AuthProvider>
+          {/* <AuthProvider>
             <AuthConsumer>
               {(auth) => (auth.isLoading ? <Fragment /> : getLayout(<Component {...pageProps} />))}
             </AuthConsumer>
-          </AuthProvider>
+          </AuthProvider> */}
+          <UserProvider supabaseClient={supabaseClient}>
+            {getLayout(<Component {...pageProps} />)}
+          </UserProvider>
         </ThemeProvider>
       </LocalizationProvider>
     </CacheProvider>

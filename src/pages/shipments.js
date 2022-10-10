@@ -7,14 +7,17 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { shipments } from "../__mocks__/shipments";
 
 import { supabase } from "../utils/supabaseClient";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 
-const Page = () => {
+const Page = ({ user }) => {
   const [shipments, setShipments] = useState();
   useEffect(() => {
     console.log("Fetching Shipments");
     fetchShipments();
     // addShipment();
   }, []);
+
+  console.log(`User: ${user.id}`);
 
   const fetchShipments = async () => {
     const { data, error } = await supabase.from("shipments").select();
@@ -56,3 +59,5 @@ const Page = () => {
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
