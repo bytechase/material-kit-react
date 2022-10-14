@@ -32,18 +32,23 @@ const Register = () => {
       password: Yup.string().max(255).required("Password is required"),
       policy: Yup.boolean().oneOf([true], "This field must be checked"),
     }),
-    onSubmit: async ({ email, password }) => {
-      const { user, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
-      console.log(user);
+    onSubmit: async ({ email, password, firstName, lastName }) => {
+      const { user, error } = await supabase.auth.signUp(
+        {
+          email: email,
+          password: password,
+        },
+        {
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+          },
+        }
+      );
       if (error) {
-        console.error(error);
+        console.log(error);
       }
-      // Router
-      //   .push('/')
-      //   .catch(console.error);
+      console.log(user);
     },
   });
 

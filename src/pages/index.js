@@ -9,6 +9,7 @@ import { TotalProfit } from "../components/dashboard/total-profit";
 import { HighestStockItems } from "../components/dashboard/highest-stock-items";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { AvgTurnAround } from "../components/dashboard/avg-turn-around";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 const Page = () => (
   <>
     <Head>
@@ -56,3 +57,4 @@ const Page = () => (
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
