@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { supabase } from "../utils/supabaseClient";
 
 const Register = () => {
   const formik = useFormik({

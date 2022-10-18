@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { CacheProvider } from "@emotion/react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -10,14 +10,17 @@ import { createEmotionCache } from "../utils/create-emotion-cache";
 import { registerChartJs } from "../utils/register-chart-js";
 import { theme } from "../theme";
 import "../theme/shipments.css";
-import { UserProvider } from "@supabase/auth-helpers-react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/router";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
 registerChartJs();
 
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
+  const router = useRouter();
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -31,14 +34,12 @@ const App = (props) => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {/* <AuthProvider>
-            <AuthConsumer>
-              {(auth) => (auth.isLoading ? <Fragment /> : getLayout(<Component {...pageProps} />))}
-            </AuthConsumer>
-          </AuthProvider> */}
-          <UserProvider supabaseClient={supabaseClient}>
+          <SessionContextProvider
+            supabaseClient={supabaseClient}
+            initialSession={props.initialSession}
+          >
             {getLayout(<Component {...pageProps} />)}
-          </UserProvider>
+          </SessionContextProvider>
         </ThemeProvider>
       </LocalizationProvider>
     </CacheProvider>

@@ -6,20 +6,33 @@ import * as Yup from "yup";
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Facebook as FacebookIcon } from "../icons/facebook";
-import { Google as GoogleIcon } from "../icons/google";
-import { supabase } from "../utils/supabaseClient";
+import { useUser, useSessionContext } from "@supabase/auth-helpers-react";
+import { useEffect } from "react";
+
 const Login = () => {
+  const { isLoading, session, error, supabaseClient } = useSessionContext();
+  const user = useUser();
+
+  useEffect(() => {
+    console.log(`useEffect isLoading: ${isLoading}`);
+  }, [isLoading]);
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      provider: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: async ({ email, password }) => {
-      const { user, error } = await supabase.auth.signIn({ email: email, password: password });
+      const { user, error } = await supabase.auth.signIn({
+        email: email,
+        password: password,
+        provider,
+      });
       if (!error) {
         console.log("Signed In");
         console.log(user);
@@ -29,7 +42,17 @@ const Login = () => {
       }
     },
   });
-
+  console.log(
+    `isLoading: ${isLoading}\nsession: ${session}\nerror: ${error}\nsupabaseClient: ${JSON.stringify(
+      supabaseClient
+    )}\n`
+  );
+  async function signInWithDiscord() {
+    await supabaseClient.auth.signInWithOAuth({ provider: "discord" });
+  }
+  if (user) {
+    Router.push("/dashboard/account");
+  }
   return (
     <>
       <Head>
@@ -56,32 +79,20 @@ const Login = () => {
                 Sign in
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
-                Sign in on the internal platform
+                Sign in to COP
               </Typography>
             </Box>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <Button
                   color="info"
-                  fullWidth
                   startIcon={<FacebookIcon />}
-                  onClick={() => formik.handleSubmit()}
+                  onClick={() => signInWithDiscord()}
                   size="large"
                   variant="contained"
+                  sx={{ px: 3, backgroundColor: "rgb(88,101,242)" }}
                 >
-                  Login with Facebook
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Button
-                  color="error"
-                  fullWidth
-                  onClick={() => formik.handleSubmit()}
-                  size="large"
-                  startIcon={<GoogleIcon />}
-                  variant="contained"
-                >
-                  Login with Google
+                  Login with Discord
                 </Button>
               </Grid>
             </Grid>
