@@ -55,7 +55,7 @@ const items = [
     title: "Live Streams",
   },
   {
-    href: "/api/auth/logout",
+    href: "/",
     icon: <LogoutIcon fontSize="small" />,
     title: "Logout",
   },

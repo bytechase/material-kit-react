@@ -48,7 +48,10 @@ const Login = () => {
     )}\n`
   );
   async function signInWithDiscord() {
-    await supabaseClient.auth.signInWithOAuth({ provider: "discord" });
+    await supabaseClient.auth.signInWithOAuth({
+      provider: "discord",
+      redirectTo: "/dashboard/account",
+    });
   }
   if (user) {
     Router.push("/dashboard/account");

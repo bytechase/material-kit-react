@@ -3,22 +3,17 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { Box, Button, ListItem } from "@mui/material";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-
 export const NavItem = (props) => {
   const { href, icon, title, ...others } = props;
-  const { isLoading, session, error, supabaseClient } = useSessionContext();
+  const { supabaseClient } = useSessionContext();
   const router = useRouter();
   const active = href ? router.pathname === href : false;
 
   async function handleLogout() {
+    console.log(title);
     console.log("Handling Logout");
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) {
-      console.log(`error`);
-      console.log(error);
-    } else {
-      console.log("signed out");
-    }
+    await supabaseClient.auth.signOut();
+    router.push("/");
   }
 
   return (
@@ -32,7 +27,7 @@ export const NavItem = (props) => {
       }}
       {...others}
     >
-      {title == "Logoout" ? (
+      {title == "Logout" ? (
         <Button
           component="a"
           startIcon={icon}
