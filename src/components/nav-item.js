@@ -10,8 +10,6 @@ export const NavItem = (props) => {
   const active = href ? router.pathname === href : false;
 
   async function handleLogout() {
-    console.log(title);
-    console.log("Handling Logout");
     await supabaseClient.auth.signOut();
     router.push("/");
   }
