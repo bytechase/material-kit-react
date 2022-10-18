@@ -25,14 +25,16 @@ const states = [
   },
 ];
 
-export const AccountProfileDetails = ({ user }) => {
+export const DiscordAccountProfileDetails = ({ user }) => {
   const [values, setValues] = useState({
     firstName: "Katarina",
     lastName: "Smith",
-    email: "demo@devias.io",
+    street1: "215 Clayton St.",
+    street2: "",
     phone: "",
     state: "Alabama",
-    country: "USA",
+    zip: "",
+    country: "US",
   });
   console.log(user);
   const handleChange = (event) => {
@@ -52,7 +54,6 @@ export const AccountProfileDetails = ({ user }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
                 label="First name"
                 name="firstName"
                 onChange={handleChange}
@@ -72,14 +73,25 @@ export const AccountProfileDetails = ({ user }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Email Address"
-                name="email"
+                label="Address Line 1"
+                name="street1"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={values.street1}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Address Line 2"
+                name="street2"
+                onChange={handleChange}
+                required
+                value={values.street2}
                 variant="outlined"
               />
             </Grid>
@@ -92,37 +104,30 @@ export const AccountProfileDetails = ({ user }) => {
                 type="number"
                 value={values.phone}
                 variant="outlined"
+                required
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Country"
+                label="Zip Code"
+                name="zip"
+                onChange={handleChange}
+                required
+                value={values.zip}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
+                label="Country Code"
                 name="country"
                 onChange={handleChange}
                 required
                 value={values.country}
                 variant="outlined"
               />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
             </Grid>
           </Grid>
         </CardContent>

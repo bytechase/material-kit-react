@@ -17,6 +17,9 @@ import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 import GroupIcon from "@mui/icons-material/Group";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+// Hooks
+import { useUser } from "@supabase/auth-helpers-react";
 
 const items = [
   {
@@ -55,6 +58,11 @@ const items = [
     title: "Live Streams",
   },
   {
+    href: "/dashboard/account",
+    icon: <ManageAccountsIcon fontSize="small" />,
+    title: "Account",
+  },
+  {
     href: "/",
     icon: <LogoutIcon fontSize="small" />,
     title: "Logout",
@@ -74,6 +82,7 @@ const items = [
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
+  const user = useUser();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -127,14 +136,26 @@ export const DashboardSidebar = (props) => {
                 borderRadius: 1,
               }}
             >
-              <div>
-                <Typography color="inherit" variant="subtitle1">
-                  Acme Inc
-                </Typography>
-                <Typography color="neutral.400" variant="body2">
-                  Tier : Premium
-                </Typography>
-              </div>
+              {/* Discord User */}
+              {user.app_metadata.provider == "discord" ? (
+                <div>
+                  <Typography color="inherit" variant="subtitle1">
+                    {user.user_metadata.name}
+                  </Typography>
+                  <Typography color="neutral.400" variant="body2">
+                    Tier : Basic
+                  </Typography>
+                </div>
+              ) : (
+                <div>
+                  <Typography color="inherit" variant="subtitle1">
+                    Acme Inc
+                  </Typography>
+                  <Typography color="neutral.400" variant="body2">
+                    Tier : Premium
+                  </Typography>
+                </div>
+              )}
             </Box>
           </Box>
         </div>
@@ -149,7 +170,7 @@ export const DashboardSidebar = (props) => {
             <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
           ))}
         </Box>
-        <Divider sx={{ borderColor: "#2D3748" }} />
+        {/* <Divider sx={{ borderColor: "#2D3748" }} />
         <Box
           sx={{
             px: 2,
@@ -186,8 +207,8 @@ export const DashboardSidebar = (props) => {
             >
               Pro Live Preview
             </Button>
-          </NextLink>
-        </Box>
+          </NextLink> */}
+        {/* </Box> */}
       </Box>
     </>
   );

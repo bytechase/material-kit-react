@@ -6,66 +6,76 @@ import {
   CardActions,
   CardContent,
   Divider,
-  Typography
-} from '@mui/material';
+  Typography,
+} from "@mui/material";
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
+  avatar: "/static/images/avatars/avatar_6.png",
+  city: "Los Angeles",
+  country: "USA",
+  jobTitle: "Senior Developer",
+  name: "Katarina Smith",
+  timezone: "GTM-7",
 };
 
-export const AccountProfile = (props) => (
-  <Card {...props}>
+export const AccountProfile = ({ user }) => (
+  <Card>
     <CardContent>
       <Box
         sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column'
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Avatar
-          src={user.avatar}
-          sx={{
-            height: 64,
-            mb: 2,
-            width: 64
-          }}
-        />
-        <Typography
-          color="textPrimary"
-          gutterBottom
-          variant="h5"
-        >
-          {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {`${user.city} ${user.country}`}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {user.timezone}
-        </Typography>
+        {user.app_metadata.provider == "discord" ? (
+          <>
+            <Avatar
+              src={user.user_metadata.avatar_url}
+              sx={{
+                height: 64,
+                mb: 2,
+                width: 64,
+              }}
+            />
+            <Typography color="textPrimary" gutterBottom variant="h5">
+              {user.user_metadata.name}
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              {user.user_metadata.email}
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              {user.timezone}
+            </Typography>
+          </>
+        ) : (
+          <>
+            <Avatar
+              src={user.user_metadata.avatar_url}
+              sx={{
+                height: 64,
+                mb: 2,
+                width: 64,
+              }}
+            />
+            <Typography color="textPrimary" gutterBottom variant="h5">
+              {user.name}
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              {user.user_metadata.email}
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              {user.timezone}
+            </Typography>
+          </>
+        )}
       </Box>
     </CardContent>
     <Divider />
-    <CardActions>
-      <Button
-        color="primary"
-        fullWidth
-        variant="text"
-      >
+    {/* <CardActions>
+      <Button color="primary" fullWidth variant="text">
         Upload picture
       </Button>
-    </CardActions>
+    </CardActions> */}
   </Card>
 );

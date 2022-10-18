@@ -16,7 +16,6 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Facebook as FacebookIcon } from "../icons/facebook";
 import { useUser, useSessionContext } from "@supabase/auth-helpers-react";
-import { useEffect } from "react";
 
 const Login = () => {
   const { isLoading, session, error, supabaseClient } = useSessionContext();
