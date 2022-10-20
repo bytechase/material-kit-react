@@ -19,8 +19,14 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 // Hooks
-import { useUser } from "@supabase/auth-helpers-react";
-
+import { useAuth } from "../contexts/supabase_user_context";
+const userItems = [
+  {
+    href: "/dashboard/account",
+    icon: <ManageAccountsIcon fontSize="small" />,
+    title: "Account",
+  },
+];
 const items = [
   {
     href: "/",
@@ -82,7 +88,7 @@ const items = [
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
-  const user = useUser();
+  const { user } = useAuth();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -137,7 +143,7 @@ export const DashboardSidebar = (props) => {
               }}
             >
               {/* Discord User */}
-              {user.app_metadata.provider == "discord" ? (
+              {user && user.app_metadata.provider == "discord" ? (
                 <div>
                   <Typography color="inherit" variant="subtitle1">
                     {user.user_metadata.name}
@@ -165,11 +171,22 @@ export const DashboardSidebar = (props) => {
             my: 3,
           }}
         />
-        <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
-            <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
-          ))}
-        </Box>
+        {/* Admin Items */}
+        {user && user.role == 1 ? (
+          <Box sx={{ flexGrow: 1 }}>
+            {items.map((item) => (
+              <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
+            ))}
+          </Box>
+        ) : (
+          <Box sx={{ flexGrow: 1 }}>
+            {/* User Items */}
+            {userItems.map((item) => (
+              <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
+            ))}
+          </Box>
+        )}
+
         {/* <Divider sx={{ borderColor: "#2D3748" }} />
         <Box
           sx={{

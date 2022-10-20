@@ -37,5 +37,3 @@ export const DashboardLayout = (props) => {
     </>
   );
 };
-
-export const getServerSideProps = withPageAuth({ redirectTo: "/login" });

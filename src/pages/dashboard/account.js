@@ -9,10 +9,10 @@ import { DashboardLayout } from "../../components/dashboard-layout";
 import { DiscordAccountProfileDetails } from "../../components/account/discord-account-profile-details";
 import { AccountPayoutDetails } from "../../components/account/account-payout-details";
 // React Hooks
-import { useUser } from "@supabase/auth-helpers-react";
+import { useAuth } from "../../contexts/supabase_user_context";
 
 const Page = () => {
-  const user = useUser();
+  const { user } = useAuth();
   return (
     <>
       <Head>

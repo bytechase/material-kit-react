@@ -11,6 +11,7 @@ import { theme } from "../theme";
 import "../theme/shipments.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { AuthContextProvider } from "../contexts/supabase_user_context";
 
 registerChartJs();
 
@@ -21,7 +22,6 @@ const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -35,7 +35,7 @@ const App = (props) => {
             supabaseClient={supabaseClient}
             initialSession={props.initialSession}
           >
-            {getLayout(<Component {...pageProps} />)}
+            <AuthContextProvider>{getLayout(<Component {...pageProps} />)}</AuthContextProvider>
           </SessionContextProvider>
         </ThemeProvider>
       </LocalizationProvider>
