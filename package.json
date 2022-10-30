@@ -29,12 +29,12 @@
     "chart.js": "3.9.1",
     "date-fns": "2.29.3",
     "formik": "2.2.9",
-    "next": "^12.3.1",
+    "next": "^13.0.0",
     "nprogress": "0.2.0",
     "prop-types": "15.8.1",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-chartjs-2": "4.3.1",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.2.0",
     "react-perfect-scrollbar": "1.5.8",
     "shippo": "^1.7.1",
     "uuid": "9.0.0",
@@ -42,6 +42,6 @@
   },
   "devDependencies": {
     "eslint": "8.23.1",
-    "eslint-config-next": "12.3.0"
+    "eslint-config-next": "^13.0.0"
   }
 }
