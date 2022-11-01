@@ -52,7 +52,7 @@ export const NavItem = (props) => {
           <Box sx={{ flexGrow: 1 }}>{title}</Box>
         </Button>
       ) : (
-        <NextLink href={href} passHref>
+        <NextLink href={href} passHref legacyBehavior>
           <Button
             component="a"
             startIcon={icon}

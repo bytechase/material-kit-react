@@ -54,10 +54,7 @@ const Page = () => (
               }}
             />
           </Box>
-          <NextLink
-            href="/"
-            passHref
-          >
+          <NextLink href="/" passHref legacyBehavior>
             <Button
               component="a"
               startIcon={(<ArrowBackIcon fontSize="small" />)}

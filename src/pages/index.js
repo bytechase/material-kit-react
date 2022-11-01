@@ -16,10 +16,10 @@ const Page = () => (
       <Container maxWidth={false}>
         <Typography>Index</Typography>
         <Link href="/login">
-          <a>Login</a>
+          Login
         </Link>
         <Link href="/register">
-          <a>Sign Up</a>
+          Sign Up
         </Link>
       </Container>
     </Box>
