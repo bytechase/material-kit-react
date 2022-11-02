@@ -1,9 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { UserAdd as UserAddIcon } from "../icons/user-add";
 import { XCircle as XCircleIcon } from "../icons/x-circle";
@@ -20,6 +19,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 // Hooks
 import { useAuth } from "../contexts/supabase_user_context";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+
 const userItems = [
   {
     href: "/dashboard/account",
@@ -87,8 +88,10 @@ const items = [
 
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
+  const [userBalance, setUserBalance] = useState();
   const router = useRouter();
   const { user } = useAuth();
+  const supabase = useSupabaseClient();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -107,6 +110,23 @@ export const DashboardSidebar = (props) => {
     [router.asPath]
   );
 
+  // Fetching User's Balance
+  useEffect(() => {
+    if (user) {
+      getBalance(user);
+    }
+  }, [user]);
+
+  // getBalance Function
+  async function getBalance(user) {
+    const { data, error } = await supabase.from("profiles").select().eq("id", user.id);
+    if (data.length == 1) {
+      setUserBalance(data[0].balance);
+    } else {
+      setUserBalance("undefined");
+    }
+  }
+
   const content = (
     <>
       <Box
@@ -119,14 +139,12 @@ export const DashboardSidebar = (props) => {
         <div>
           <Box sx={{ p: 3 }}>
             <NextLink href="/" passHref>
-
               <Logo
                 sx={{
                   height: 42,
                   width: 42,
                 }}
               />
-
             </NextLink>
           </Box>
           <Box sx={{ px: 2 }}>
@@ -149,7 +167,7 @@ export const DashboardSidebar = (props) => {
                     {user.user_metadata.name}
                   </Typography>
                   <Typography color="neutral.400" variant="body2">
-                    Tier : Basic
+                    {`Balance: ${userBalance}`}
                   </Typography>
                 </div>
               ) : (
