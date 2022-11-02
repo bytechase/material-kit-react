@@ -9,28 +9,52 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export const DiscordAccountProfileDetails = ({ user }) => {
-  const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
-    street1: "",
-    street2: "",
-    phone: "",
-    state: "",
-    zip: "",
-    country: "",
+  const supabase = useSupabaseClient();
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      street1: "",
+      street2: "",
+      city: "",
+      state: "",
+      zip: "",
+      country: "",
+    },
+    // validationSchema: Yup.object({
+    //   email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
+    //   password: Yup.string().max(255).required("Password is required"),
+    // }),
+    onSubmit: async (values) => {
+      console.log("Submitting Form");
+      console.log(values);
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          first_name: values.firstName,
+          last_name: values.lastName,
+          phone_number: values.phone,
+          address_line1: values.street1,
+          address_line2: values.street2,
+          address_state: values.state,
+          address_zip: values.zip,
+          address_country: values.country,
+        })
+        .eq("id", user.id);
+      if (error) {
+        console.error(error);
+      }
+    },
   });
-  console.log(user);
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   return (
-    <form autoComplete="off" noValidate>
+    <form onSubmit={formik.handleSubmit}>
       <Card>
         <CardHeader subheader="The information can be edited" title="Profile" />
         <Divider />
@@ -41,9 +65,9 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 fullWidth
                 label="First name"
                 name="firstName"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 required
-                value={values.firstName}
+                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
@@ -52,31 +76,9 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 fullWidth
                 label="Last name"
                 name="lastName"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 required
-                value={values.lastName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Address Line 1"
-                name="street1"
-                onChange={handleChange}
-                required
-                value={values.street1}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Address Line 2"
-                name="street2"
-                onChange={handleChange}
-                required
-                value={values.street2}
+                value={formik.values.lastName}
                 variant="outlined"
               />
             </Grid>
@@ -85,11 +87,44 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 fullWidth
                 label="Phone Number"
                 name="phone"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 type="number"
-                value={values.phone}
+                value={formik.values.phone}
                 variant="outlined"
                 required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Address Line 1"
+                name="street1"
+                onChange={formik.handleChange}
+                required
+                value={formik.values.street1}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Address Line 2"
+                name="street2"
+                onChange={formik.handleChange}
+                required
+                value={formik.values.street2}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
+                label="City"
+                name="city"
+                onChange={formik.handleChange}
+                required
+                value={formik.values.city}
+                variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -97,9 +132,9 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 fullWidth
                 label="State"
                 name="state"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 required
-                value={values.state}
+                value={formik.values.state}
                 variant="outlined"
               />
             </Grid>
@@ -108,9 +143,9 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 fullWidth
                 label="Zip Code"
                 name="zip"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 required
-                value={values.zip}
+                value={formik.values.zip}
                 variant="outlined"
               />
             </Grid>
@@ -119,9 +154,9 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 fullWidth
                 label="Country Code"
                 name="country"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 required
-                value={values.country}
+                value={formik.values.country}
                 variant="outlined"
                 placeholder="US"
               />
@@ -136,7 +171,7 @@ export const DiscordAccountProfileDetails = ({ user }) => {
             p: 2,
           }}
         >
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" type="submit">
             Save details
           </Button>
         </Box>
