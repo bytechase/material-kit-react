@@ -10,31 +10,16 @@ import {
   TextField,
 } from "@mui/material";
 
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-];
-
 export const DiscordAccountProfileDetails = ({ user }) => {
   const [values, setValues] = useState({
-    firstName: "Katarina",
-    lastName: "Smith",
-    street1: "215 Clayton St.",
+    firstName: "",
+    lastName: "",
+    street1: "",
     street2: "",
     phone: "",
-    state: "Alabama",
+    state: "",
     zip: "",
-    country: "US",
+    country: "",
   });
   console.log(user);
   const handleChange = (event) => {
@@ -110,6 +95,17 @@ export const DiscordAccountProfileDetails = ({ user }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
+                label="State"
+                name="state"
+                onChange={handleChange}
+                required
+                value={values.state}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
                 label="Zip Code"
                 name="zip"
                 onChange={handleChange}
@@ -127,6 +123,7 @@ export const DiscordAccountProfileDetails = ({ user }) => {
                 required
                 value={values.country}
                 variant="outlined"
+                placeholder="US"
               />
             </Grid>
           </Grid>
