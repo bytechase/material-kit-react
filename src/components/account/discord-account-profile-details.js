@@ -29,7 +29,7 @@ export const DiscordAccountProfileDetails = ({ user }) => {
     },
     // validationSchema: Yup.object({
     //   email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
-    //   password: Yup.string().max(255).required("Password is required"),
+    //   password: Yup.string().max(255).required("Password is required")f,
     // }),
     onSubmit: async (values) => {
       console.log("Submitting Form");
@@ -43,6 +43,7 @@ export const DiscordAccountProfileDetails = ({ user }) => {
           address_line1: values.street1,
           address_line2: values.street2,
           address_state: values.state,
+          address_city: values.city,
           address_zip: values.zip,
           address_country: values.country,
         })
